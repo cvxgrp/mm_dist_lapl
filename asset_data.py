@@ -48,6 +48,7 @@ def generate_asset_data(n, m, T, mean = 0, var = 1, same_or_different = 'same'):
 			Fs[t] = np.sqrt(var)*np.random.randn(n,m) + mean
 			Rs[t] = np.sqrt(var)
 			Ds[t] = np.sqrt(var)*np.random.rand(n) + mean
+			Ds[t][-1] = 0
 
 	return mus, Fs, Rs, Ds, s
 
