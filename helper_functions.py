@@ -1,17 +1,12 @@
-import numpy as np
 import time
+import numpy as np
 import matplotlib.pyplot as plt
-#from multiprocessing import Pool, Array, Value, Process
-from pathos.multiprocessing import ProcessingPool as Pool
-import multiprocessing
 import scipy as sc
 import scipy.sparse as sparse
-from scipy import io
-import random
 import cvxpy as cvx
-import osqp
 import scipy.sparse as sparse
-import multiprocess
+from pathos.multiprocessing import ProcessingPool as Pool
+from multiprocessing import cpu_count
 
 def make_L_finance(Ds, n, T):
 	#Make L matrix
@@ -175,7 +170,7 @@ def solve_MPO_MM(problem_data):
 	x_prev = problem_data['x_prev']
 
 	CASH = np.eye(1, n, n-1).T.reshape(n,) #cash vector	
-	numProcesses = multiprocessing.cpu_count()
+	numProcesses = cpu_count()
 	LHAT_L = LHAT_max_eigval*sparse.eye(n*p) - L #LHAT - L
 	print('Tolerance is %s.' % tolerance)
 	time_res = 0

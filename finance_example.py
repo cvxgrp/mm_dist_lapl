@@ -1,16 +1,10 @@
-import numpy as np
 import time
-import multiprocessing
-from multiprocessing import Pool, Array, Value, Process
-import scipy as sc
-from scipy import io
-import random
+import sys
 import cvxpy as cvx
+import numpy as np
+import scipy as sc
 from helper_functions import *
 from asset_data import *
-import sys
-import mosek
-import multiprocess
 
 if __name__ == '__main__':
 	recursionLimit = 1000000

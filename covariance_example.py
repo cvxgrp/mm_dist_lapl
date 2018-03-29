@@ -76,14 +76,14 @@ ALL_DATA_POINTS = ALL_DATA_POINTS[:, 1:]
 '''Calculate MSE for lambda = 0'''
 MSE_0 = 0
 for i in range(p):
-	MSE_0 += np.linalg.norm(np.linalg.inv(S_actual[i]) - np.linalg.inv(S[i] + kappa*np.eye(n)), 'fro')
+	MSE_0 += np.linalg.norm(np.linalg.inv(S_actual[i]) - np.linalg.inv(S[i] + kappa*np.eye(n)), 'fro')**2
 MSE_0 /= (n**2 * p)
 print('MSE for LAMBDA = 0 is %s.' % MSE_0)
 
 '''Calculate MSE for lambda -> infinity'''
 MSE_infty = 0
 for i in range(p):
-	MSE_infty += np.linalg.norm(np.linalg.inv(S_actual[i]) - np.linalg.inv(np.cov(ALL_DATA_POINTS)), 'fro')
+	MSE_infty += np.linalg.norm(np.linalg.inv(S_actual[i]) - np.linalg.inv(np.cov(ALL_DATA_POINTS)), 'fro')**2
 MSE_infty /= (n**2 * p)
 print('MSE for LAMBDA -> Infinity is %s.' % MSE_infty)
 
@@ -234,7 +234,7 @@ for lambd in exponents:
 	'''Calculate MSE for this optimal estimate'''
 	MSE_MM = 0
 	for i in range(p):
-		MSE_MM += np.linalg.norm(np.linalg.inv(S_actual[i]) - T[i*n:(i+1)*n,:], 'fro')
+		MSE_MM += np.linalg.norm(np.linalg.inv(S_actual[i]) - T[i*n:(i+1)*n,:], 'fro')**2
 	MSE_MM /= (n**2 * p)
 	MSE_VEC.append(MSE_MM)
 
