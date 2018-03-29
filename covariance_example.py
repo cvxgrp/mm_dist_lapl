@@ -4,7 +4,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from multiprocessing import cpu_count
-from pathos.multiprocessing import ProcessingPool as Pool #fastest by far for single instance, but is unstable sometimes
+from pathos.multiprocessing import ProcessingPool as Pool
 import scipy.sparse as sparse
 from scipy import io
 from matplotlib import rc
@@ -76,16 +76,16 @@ ALL_DATA_POINTS = ALL_DATA_POINTS[:, 1:]
 '''Calculate MSE for lambda = 0'''
 MSE_0 = 0
 for i in range(p):
-	MSE_0 += np.linalg.norm(np.linalg.inv(S_actual[i]) - np.linalg.inv(S[i] + kappa*np.eye(n)), 'fro')
+	MSE_0 += np.linalg.norm(np.linalg.inv(S_actual[i]) - np.linalg.inv(S[i] + kappa*np.eye(n)), 'fro')**2
 MSE_0 /= (n**2 * p)
-print('MSE for LAMBDA = 0 is %s.' % MSE_0)
+print('RMSE for LAMBDA = 0 is %s.' % np.sqrt(MSE_0))
 
 '''Calculate MSE for lambda -> infinity'''
 MSE_infty = 0
 for i in range(p):
-	MSE_infty += np.linalg.norm(np.linalg.inv(S_actual[i]) - np.linalg.inv(np.cov(ALL_DATA_POINTS)), 'fro')
+	MSE_infty += np.linalg.norm(np.linalg.inv(S_actual[i]) - np.linalg.inv(np.cov(ALL_DATA_POINTS)), 'fro')**2
 MSE_infty /= (n**2 * p)
-print('MSE for LAMBDA -> Infinity is %s.' % MSE_infty)
+print('RMSE for LAMBDA -> Infinity is %s.' % np.sqrt(MSE_infty))
 
 '''
 In this section, for the particular dimensions of the problem, we either compute 
@@ -169,7 +169,7 @@ max_iter = 500 #max number of iters per value of lambda.
 abs_tol = 1e-5 #absolute tolerance
 rel_tol = 1e-3 #relative tolerance
 tot_iters = 0 #counter to count total number of iterations
-MSE_VEC = [] #array that will hold the regpath MSEs
+RMSE_VEC = [] #array that will hold the regpath MSEs
 t_reg_path = 0
 numProcesses = cpu_count() #number of processes on your computer.
 T = np.zeros((n*p, n)) #Theta
@@ -234,12 +234,12 @@ for lambd in exponents:
 	'''Calculate MSE for this optimal estimate'''
 	MSE_MM = 0
 	for i in range(p):
-		MSE_MM += np.linalg.norm(np.linalg.inv(S_actual[i]) - T[i*n:(i+1)*n,:], 'fro')
+		MSE_MM += np.linalg.norm(np.linalg.inv(S_actual[i]) - T[i*n:(i+1)*n,:], 'fro')**2
 	MSE_MM /= (n**2 * p)
-	MSE_VEC.append(MSE_MM)
+	RMSE_VEC.append(np.sqrt(MSE_MM))
 
 	print('Total problem solve time for this value of lambda was %s seconds.' % t_lambda)
-	print('MSE for (lambda, kappa) = %s is %s.' % ((lambd, kappa), MSE_MM))
+	print('RMSE for (lambda, kappa) = %s is %s.' % ((lambd, kappa), RMSE_VEC[-1]))
 
 print('Entire regularization path took %s seconds.' % t_whole_regpath)
 print('Entire regularization path took %s iterations.' % tot_iters)
@@ -252,8 +252,8 @@ if len(exponents) > 1:
 	plt.rc('text', usetex=True)
 	plt.rc('font', family='serif')
 	fig = plt.figure()
-	reg_path, = plt.semilogx(exponents, MSE_VEC, label='MSE')
+	reg_path, = plt.semilogx(exponents, RMSE_VEC, label='RMSE')
 	plt.xlabel(r'$\lambda$')
-	plt.ylabel(r'Mean-square error')
+	plt.ylabel(r'Root-mean-square error')
 	plt.savefig('Results/reg_path_%s_%s_%s_%s.png' % (p, n, str(time.strftime('%Y%m%d_%H%M%S',time.gmtime())), kappa))
 	plt.close(fig)
