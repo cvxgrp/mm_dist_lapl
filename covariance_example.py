@@ -4,7 +4,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from multiprocessing import cpu_count
-from pathos.multiprocessing import ProcessingPool as Pool #fastest by far for single instance, but is unstable sometimes
+from pathos.multiprocessing import ProcessingPool as Pool
 import scipy.sparse as sparse
 from scipy import io
 from matplotlib import rc
