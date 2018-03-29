@@ -239,7 +239,7 @@ for lambd in exponents:
 	RMSE_VEC.append(np.sqrt(MSE_MM))
 
 	print('Total problem solve time for this value of lambda was %s seconds.' % t_lambda)
-	print('MSE for (lambda, kappa) = %s is %s.' % ((lambd, kappa), RMSE_VEC[-1]))
+	print('RMSE for (lambda, kappa) = %s is %s.' % ((lambd, kappa), RMSE_VEC[-1]))
 
 print('Entire regularization path took %s seconds.' % t_whole_regpath)
 print('Entire regularization path took %s iterations.' % tot_iters)
