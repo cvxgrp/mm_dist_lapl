@@ -252,7 +252,7 @@ if len(exponents) > 1:
 	plt.rc('text', usetex=True)
 	plt.rc('font', family='serif')
 	fig = plt.figure()
-	reg_path, = plt.semilogx(exponents, RMSE_VEC, label='MSE')
+	reg_path, = plt.semilogx(exponents, RMSE_VEC, label='RMSE')
 	plt.xlabel(r'$\lambda$')
 	plt.ylabel(r'Root-mean-square error')
 	plt.savefig('Results/reg_path_%s_%s_%s_%s.png' % (p, n, str(time.strftime('%Y%m%d_%H%M%S',time.gmtime())), kappa))
