@@ -14,7 +14,7 @@ The requirements to run this code are:
 Each example may individually be run.
 
 ### Citing
-If you wish to cite `diffcp`, please use the following BibTex:
+If you wish to cite the associated paper, please use the following BibTex:
 
 ```
 @article{tuck2019distributed,
